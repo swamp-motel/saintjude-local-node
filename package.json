@@ -1,0 +1,23 @@
+{
+  "name": "saintjude-local-node",
+  "version": "1.0.0",
+  "description": "A local app that runs on Saint Jude PCs to allow for printing",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Leo Woolcock",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@thiagoelg/node-printer": "^0.6.2",
+    "express": "^4.18.2",
+    "node-thermal-printer": "^4.1.2",
+    "nodemon": "^2.0.20",
+    "printer": "^0.4.0",
+    "receiptline": "^1.13.0"
+  },
+  "devDependencies": {
+    "electron-rebuild": "^3.2.9"
+  }
+}
