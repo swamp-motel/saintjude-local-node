@@ -7,7 +7,7 @@ const server = app.listen(port, function() {
 });
 
 const printer = require('./printer.js');
-//printer.init();
+printer.init();
 app.use(express.urlencoded({ extended : true }));
 
 app.post('/print/text', (req, res) => {
@@ -21,7 +21,7 @@ app.post('/print/image', (req, res) => {
 })
 
 
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
 
 
 

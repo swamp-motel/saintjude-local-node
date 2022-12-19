@@ -17,7 +17,5 @@
     "printer": "^0.4.0",
     "receiptline": "^1.13.0"
   },
-  "devDependencies": {
-    "electron-rebuild": "^3.2.9"
-  }
+  "devDependencies": {}
 }
