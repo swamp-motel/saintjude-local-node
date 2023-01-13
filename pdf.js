@@ -27,13 +27,13 @@ function createStatsPDF(){
 
     //TITLE
     doc.font = 
-    doc.fontSize(4);
+    doc.fontSize(16);
     doc.x = 0;
-    doc.y = 4;
+    doc.y = 24;
     doc.text('THANK YOU FOR VOLUNTEERING AT SAINT JUDE', {width: pageWidth, align: 'center'});
 
     //QR CODE
-    doc.image('assets/postshow_qr.png', pageWidth - 20, pageHeight -20, {width: 15})
+    doc.image('assets/postshow_qr.png', pageWidth - 48, pageHeight -48, {width: 24})
 
 
     // finalize the PDF and end the stream
