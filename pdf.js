@@ -23,9 +23,10 @@ function createStatsPDF(){
     doc.font('assets/Perfect DOS VGA 437.ttf')
     
     //BORDER
-    doc.lineWidth(25);
-    doc.lineJoin('round');
-    doc.rect(0, 0, pageWidth, pageHeight).stroke();
+    doc.lineWidth(12)
+        .lineJoin('round')
+        .rect(0, 0, pageWidth, pageHeight)
+        .stroke();
 
     //TITLE
     doc.fontSize(16);
