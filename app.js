@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended : true }));
 
 async function go(){
 
-    const filename = pdf.createStatsPDF();
+    const filename = pdf.createStatsPDF({id: '12'});
 
     console.log(filename);
 

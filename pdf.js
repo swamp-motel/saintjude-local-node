@@ -1,7 +1,7 @@
 const fs = require('fs');
 const PDFDocument = require('pdfkit');
 
-function createStatsPDF(){
+function createStatsPDF({id}){
     
     const pageHeight = 434; //434pt = 152mm
     const pageWidth = 291; // 291pt = 102mm
@@ -27,9 +27,18 @@ function createStatsPDF(){
         .rect(0, 0, pageWidth, pageHeight)
         .stroke();
 
-    //TITLE
+    //ECHOSUMP
+    doc.image('assets/echo.png', pageWidth/2 - 64, 16, {width: 128, align: 'center'})
+
+    //ID
     doc.x = 0;
     doc.y = 16;
+    doc.fontSize(32)
+        .text(id, {width: pageWidth, align: 'right'});
+
+    //TITLE
+    doc.x = 0;
+    doc.y = 64;
     doc.fontSize(16)
         .text('THANK YOU FOR VOLUNTEERING AT SAINT JUDE', {width: pageWidth, align: 'center'});
 
