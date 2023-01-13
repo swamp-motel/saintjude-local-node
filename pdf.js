@@ -39,7 +39,7 @@ function createStatsPDF(){
     // finalize the PDF and end the stream
     doc.end();
 
-    return 'demo.pdf';
+    return './output/demo.pdf';
 }
 
 module.exports = { createStatsPDF }
