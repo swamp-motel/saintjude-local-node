@@ -44,7 +44,7 @@ function createStatsPDF({id}){
 
 
     doc.x = 0;
-    doc.y = 64;
+    doc.y = 128;
     doc.fontSize(12)
         .text("I FUCKING HATE PRINTERS DON'T I TIFF BUT HERE I AM AGAIN PROGRAMMING A BLOODY PRINTER", {width: pageWidth, align: 'center'});
 
