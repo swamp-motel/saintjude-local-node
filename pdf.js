@@ -42,6 +42,15 @@ function createStatsPDF({id}){
     doc.fontSize(16)
         .text('THANK YOU FOR VOLUNTEERING AT SAINT JUDE', {width: pageWidth, align: 'center'});
 
+
+    doc.x = 0;
+    doc.y = 64;
+    doc.fontSize(12)
+        .text("I FUCKING HATE PRINTERS DON'T I TIFF BUT HERE I AM AGAIN PROGRAMMING A BLOODY PRINTER", {width: pageWidth, align: 'center'});
+
+
+
+
     //QR CODE
     doc.image('assets/postshow_qr.png', pageWidth - 64, pageHeight -64, {width: 48})
 
