@@ -23,20 +23,18 @@ function createStatsPDF(){
     doc.font('assets/Perfect DOS VGA 437.ttf')
     
     //BORDER
-    doc.lineWidth(12)
-        .lineJoin('round')
+    doc.lineWidth(8)
         .rect(0, 0, pageWidth, pageHeight)
         .stroke();
 
     //TITLE
-    doc.fontSize(16);
     doc.x = 0;
-    doc.y = 24;
-    doc.text('THANK YOU FOR VOLUNTEERING AT SAINT JUDE', {width: pageWidth, align: 'center'});
+    doc.y = 16;
+    doc.fontSize(16)
+        .text('THANK YOU FOR VOLUNTEERING AT SAINT JUDE', {width: pageWidth, align: 'center'});
 
     //QR CODE
-    doc.image('assets/postshow_qr.png', pageWidth - 48, pageHeight -48, {width: 24})
-
+    doc.image('assets/postshow_qr.png', pageWidth - 64, pageHeight -64, {width: 48})
 
     // finalize the PDF and end the stream
     doc.end();
