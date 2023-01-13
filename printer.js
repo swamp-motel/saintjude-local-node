@@ -7,6 +7,7 @@ async function printPDF(filename){
   const printer = "Brother TD-4420DN (USB)";
   const options = {
     printer,
+    paperSize: "102mm Continuous Roll"
   }
   
   print(filename, options).then(result => {
