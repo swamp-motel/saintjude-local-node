@@ -7,7 +7,6 @@ async function printPDF(filename){
   const printer = "Brother TD-4420DN";
   const options = {
     printer:  "Brother TD-4420DN",
-    scale: "fit"
   }
   
   print(filename, options).then(result => {
