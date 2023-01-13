@@ -4,8 +4,9 @@ async function printPDF(filename){
   getPrinters().then(printers=>{
     console.log(printers)
   })
-  // const printer = "Brother";
+  const printer = "Brother TD-4420DN";
   const options = {
+    printer:  "Brother TD-4420DN",
     scale: "fit"
   }
   

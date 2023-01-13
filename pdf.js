@@ -3,8 +3,8 @@ const PDFDocument = require('pdfkit');
 
 function createStatsPDF(){
     
-    const pageHeight = 145;
-    const pageWidth = 102;
+    const pageHeight = 434; //434pt = 152mm
+    const pageWidth = 291; // 291pt = 102mm
 
     const doc = new PDFDocument({
         size: [pageWidth,pageHeight],
