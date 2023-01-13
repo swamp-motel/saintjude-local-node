@@ -17,7 +17,7 @@ function createStatsPDF(){
     });
     
 
-    doc.pipe(fs.createWriteStream('./demo.pdf')); // write to PDF
+    doc.pipe(fs.createWriteStream('./output/demo.pdf')); // write to PDF
 
     //SETUP STYLES
     doc.font('assets/Perfect DOS VGA 437.ttf')

@@ -1,18 +1,16 @@
-const { getPrinters, print } = require("unix-print");
+const { print } = require("pdf-to-printer");
 
 async function printPDF(filename){
-  getPrinters().then(printers=>{
-    console.log(printers)
-  })
-  const printer = "Brother";
-  const options = ["-o portrait", "-o fit-to-page"];
+  // getPrinters().then(printers=>{
+  //   console.log(printers)
+  // })
+  // const printer = "Brother";
+  // const options = ["-o portrait", "-o fit-to-page"];
   print(filename).then(result => {
-    console.log(result)
+    return(result)
   });
   //const result = await ptp.print(filename, options);
   //console.log(result);
-  const result = 'hello'
-  return result;
 }
 
 module.exports = { printPDF }
