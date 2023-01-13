@@ -7,26 +7,20 @@ const server = app.listen(port, function() {
 });
 
 const printer = require('./printer.js');
-printer.init();
+const pdf = require('./pdf.js');
+
 app.use(express.urlencoded({ extended : true }));
 
-app.post('/print/text', (req, res) => {
-    console.log(req.body);
-    printer.printText(req.body.message)
-    res.status(200).send();
-})
+async function go(){
 
-app.post('/print/image', (req, res) => {
-    res.status(200).send();
-})
+    const filename = pdf.createStatsPDF();
 
+    console.log(filename);
 
-//app.use(express.static(path.join(__dirname, 'public')));
+    const success = await printer.printPDF(filename);
 
+    console.log(success);
 
-
-function addLeadingZero(input){
-    if (input.length == 1){
-        return '0' + input;
-    }
 }
+
+go();
