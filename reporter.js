@@ -15,7 +15,8 @@ exports.report = async () => {
     sequenceNumber++
     
     const response = await axios.post("https://backstage.saintjude.ai/api/reports", submission).catch(err=>{
-        console.error('Could not connect to server')
+        console.error('Could not connect to server');
+        return false;
     });
     
     if (response.data.jobs){
