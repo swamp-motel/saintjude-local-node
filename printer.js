@@ -1,20 +1,28 @@
 const { print, getPrinters } = require("pdf-to-printer");
 
 async function printPDF(filename){
-  getPrinters().then(printers=>{
-    console.log(printers)
-  })
+  getPrinters()
+    .then(printers=>{
+      console.log("Printers",printers)
+    })
+    .catch(error => {
+      console.error(error);
+    })
+
+  
   const printer = "Brother TD-4420DN (USB)";
   const options = {
     printer,
     paperSize: "102mm Continuous Roll"
   }
-  
-  print(filename, options).then(result => {
-    return(result)
-  });
-  //const result = await ptp.print(filename, options);
-  //console.log(result);
+    
+  print(filename, options)
+    .then(result => {
+      return(result)
+    })
+    .catch(error => {
+      console.error(error);
+    })
 }
 
 module.exports = { printPDF }

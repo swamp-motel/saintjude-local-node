@@ -1,10 +1,37 @@
 const fs = require('fs');
 const PDFDocument = require('pdfkit');
 
-function createStatsPDF({id}){
+function createStatsPDF(job){
+    console.log(job);
+
+    //RENDER SOME PRINTABLE DATA
+    //totalTime, dateToPrint, startTimeToPrint, endTimeToPrint, uuid, remarksToPrint
+    const totalTime = `${Math.floor(job.duration / 1000 / 60)} mins`
+    const startDate = new Date(job.startTime);
+    const endDate = new Date(job.endTime);
+    const date = startDate.getDate();
+    const month = startDate.getMonth(); 
+    const year = startDate.getFullYear();
+    const dateToPrint = pad(date) + "-" + pad(month + 1) + "-" + year;
+    const startTimeToPrint = pad(startDate.getHours()) + ":" + pad(startDate.getMinutes())
+    const endTimeToPrint = pad(endDate.getHours()) + ":" + pad(endDate.getMinutes())
+    const uuid = job.uuid;
+    
+    let remarksToPrint;
+    if (job.remarks.length <= 3){
+        remarksToPrint = new Set(job.remarks);
+    } else {
+        while (remarksToPrint.size < 3) {
+            const item = getRandomItem(job.remarks);
+            remarksToPrint.add(item);
+        }
+    }
     
     const pageHeight = 434; //434pt = 152mm
     const pageWidth = 291; // 291pt = 102mm
+
+    const contentWidth = pageWidth - 20;
+    const contentMargin = 10;
 
     const doc = new PDFDocument({
         size: [pageWidth,pageHeight],
@@ -28,28 +55,42 @@ function createStatsPDF({id}){
         .stroke();
 
     //ECHOSUMP
-    doc.image('assets/echo.png', pageWidth/2 - 64, 16, {width: 128, align: 'center'})
+    doc.image('assets/echo.png', contentWidth/2 - 64, 16, {width: 128, align: 'center'})
 
     //ID
-    doc.x = 0;
-    doc.y = 16;
+    doc.x = contentMargin;
+    doc.y = pageHeight - 48;
     doc.fontSize(32)
-        .text(id, {width: pageWidth, align: 'right'});
+    doc.text(uuid, {width: contentWidth, align: 'left'});
 
-    //TITLE
-    doc.x = 0;
+    //THANK YOU
+    doc.x = contentMargin;
     doc.y = 64;
     doc.fontSize(16)
-        .text('THANK YOU FOR VOLUNTEERING AT SAINT JUDE', {width: pageWidth, align: 'center'});
+        .text('THANK YOU FOR VOLUNTEERING AT SAINT JUDE', {width: contentWidth, align: 'center'});
 
 
-    doc.x = 0;
+    //TIMING INFO
+    doc.x = contentMargin;
     doc.y = 128;
-    doc.fontSize(12)
-        .text("I FUCKING HATE PRINTERS DON'T I TIFF BUT HERE I AM AGAIN PROGRAMMING A BLOODY PRINTER", {width: pageWidth, align: 'center'});
+    doc.fontSize(12);
+    doc.text(`Date: ${dateToPrint}`, {width: contentWidth, align: 'left'});
+    //doc.moveDown();
+    doc.text(`Time Started: ${startTimeToPrint}`, {width: contentWidth, align: 'left'});
+    //doc.moveDown();
+    doc.text(`Time Finished: ${endTimeToPrint}`, {width: contentWidth, align: 'left'});
+    //doc.moveDown();
+    doc.text(`Session Duration: ${totalTime}`, {width: contentWidth, align: 'left'});
+    doc.moveDown();
 
-
-
+    //REMARKS
+    doc.x = contentMargin;
+    doc.y = 196;
+    doc.fontSize(12);
+    for (let remark of remarksToPrint){
+        doc.text(`${remark.text}`)
+        doc.moveDown();
+    }
 
     //QR CODE
     doc.image('assets/postshow_qr.png', pageWidth - 64, pageHeight -64, {width: 48})
@@ -61,3 +102,20 @@ function createStatsPDF({id}){
 }
 
 module.exports = { createStatsPDF }
+
+
+
+function getRandomItem(arr) {
+
+    // get random index value
+    const randomIndex = Math.floor(Math.random() * arr.length);
+
+    // get random item
+    const item = arr[randomIndex];
+
+    return item;
+}
+
+function pad(n) {
+    return n<10 ? '0'+n : n;
+}
