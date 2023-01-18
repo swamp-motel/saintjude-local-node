@@ -18,8 +18,7 @@ exports.report = async () => {
         console.error('Could not connect to server');
         return false;
     });
-    console.log(response.data)
-    if (response.data.jobs){
+    if (response.data && response.data.jobs){
         response.data.jobs.forEach(job => {
             console.log('I had a job to do!');
             console.log(job.payload);
