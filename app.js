@@ -23,6 +23,7 @@ setInterval(async ()=>{
             } else {
                 filename = pdf.createStatsPDF(job.payload);
             }
+            console.log("Filename from PDF Generator:", filename)
             const success = await printer.printPDF(filename).catch(err => {
                 console.error(err);
             });
@@ -30,13 +31,3 @@ setInterval(async ()=>{
         })
     }
 }, 1000)
-
-
-async function go(){
-    const filename = pdf.createStatsPDF({id: '12'});
-    console.log('filename', filename);
-    const success = await printer.printPDF(filename).catch(err => {
-        console.error(err);
-    });
-    console.log('success?', success);
-}
