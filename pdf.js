@@ -74,8 +74,8 @@ function createStatsPDF(job){
         }
     });
     
-
-    doc.pipe(fs.createWriteStream('./output/demo.pdf')); // write to PDF
+    const filename = `./output/${job.uuid}_${Date.now()}.pdf`
+    doc.pipe(fs.createWriteStream(filename)); // write to PDF
 
     //SETUP STYLES
     doc.font('assets/Perfect DOS VGA 437.ttf')
@@ -129,7 +129,7 @@ function createStatsPDF(job){
     // finalize the PDF and end the stream
     doc.end();
 
-    return `./output/${job.uuid}_${Date.now()}.pdf`;
+    return filename;
 }
 
 module.exports = { createStatsPDF, createTestPage }
