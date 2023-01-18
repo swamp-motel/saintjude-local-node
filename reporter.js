@@ -18,7 +18,7 @@ exports.report = async () => {
         console.error('Could not connect to server');
         return false;
     });
-    
+    console.log(response)
     if (response.data.jobs){
         response.data.jobs.forEach(job => {
             console.log('I had a job to do!');
