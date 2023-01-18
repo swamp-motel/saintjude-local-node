@@ -14,8 +14,8 @@ app.use(express.urlencoded({ extended : true }));
 
 setInterval(async ()=>{
     const anyJobs = await reporter.report();
-    console.log(anyJobs);
     if (anyJobs.length){
+        console.log(anyJobs);
         anyJobs.forEach(async job=>{
             let filename;
             if (job.payload == 'testpage'){

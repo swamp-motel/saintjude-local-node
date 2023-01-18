@@ -15,7 +15,7 @@ async function printPDF(filename){
     paperSize: "102mm Continuous Roll"
   }
     
-  print(filename, options)
+  return print(filename, options)
     .then(result => {
       return true;
     })
