@@ -64,7 +64,7 @@ function createStatsPDF(job){
         const endTimeToPrint = pad(endDate.getHours()) + ":" + pad(endDate.getMinutes())
         const uuid = job.uuid;
         
-        let remarksToPrint;
+        let remarksToPrint = new Set();
         if (job.remarks.length <= 3){
             remarksToPrint = new Set(job.remarks);
         } else {
