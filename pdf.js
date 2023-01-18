@@ -1,6 +1,43 @@
 const fs = require('fs');
 const PDFDocument = require('pdfkit');
 
+const pageHeight = 434; //434pt = 152mm
+const pageWidth = 291; // 291pt = 102mm
+
+const contentWidth = pageWidth - 20;
+const contentMargin = 10;
+
+
+function createTestPage(){
+    const doc = new PDFDocument({
+        size: [pageWidth,pageHeight],
+        margins : {
+            top: 10,
+            bottom:10,
+            left: 10,
+            right: 10
+        }
+    });
+
+    doc.pipe(fs.createWriteStream('./output/test.pdf')); // write to PDF
+
+    //SETUP STYLES
+    doc.font('assets/Perfect DOS VGA 437.ttf')
+    
+    //BORDER
+    doc.lineWidth(8)
+        .rect(0, 0, pageWidth, pageHeight)
+        .stroke();
+
+    //ECHOSUMP
+    doc.image('assets/echo.png', contentWidth/2 - 64, 16, {width: 128, align: 'center'})
+
+    doc.end();
+
+    return './output/test.pdf';
+
+}
+
 function createStatsPDF(job){
     console.log(job);
 
@@ -27,12 +64,6 @@ function createStatsPDF(job){
         }
     }
     
-    const pageHeight = 434; //434pt = 152mm
-    const pageWidth = 291; // 291pt = 102mm
-
-    const contentWidth = pageWidth - 20;
-    const contentMargin = 10;
-
     const doc = new PDFDocument({
         size: [pageWidth,pageHeight],
         margins : {
@@ -98,10 +129,10 @@ function createStatsPDF(job){
     // finalize the PDF and end the stream
     doc.end();
 
-    return './output/demo.pdf';
+    return `./output/${job.uuid}_${Date.now()}.pdf`;
 }
 
-module.exports = { createStatsPDF }
+module.exports = { createStatsPDF, createTestPage }
 
 
 

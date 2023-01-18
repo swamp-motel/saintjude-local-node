@@ -17,7 +17,12 @@ setInterval(async ()=>{
     console.log(anyJobs);
     if (anyJobs.length){
         anyJobs.forEach(async job=>{
-            const filename = pdf.createStatsPDF(job.payload);
+            let filename;
+            if (job.payload == 'testpage'){
+                filename = pdf.createTestPage();
+            } else {
+                filename = pdf.createStatsPDF(job.payload);
+            }
             const success = await printer.printPDF(filename).catch(err => {
                 console.error(err);
             });
