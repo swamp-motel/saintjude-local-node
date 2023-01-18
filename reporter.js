@@ -22,7 +22,9 @@ exports.report = async () => {
         response.data.jobs.forEach(job => {
             console.log('I had a job to do!');
             console.log(job.payload);
-            axios.delete(`https://backstage.saintjude.ai/api/jobs/${job.id}`);
+            axios.delete(`https://backstage.saintjude.ai/api/jobs/${job.id}`).catch(err => {
+                console.error('Unable to delete the job I just received')
+            });
         })
         return response.data.jobs;
     } else {
