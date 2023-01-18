@@ -33,6 +33,14 @@ function createTestPage(){
     //ECHOSUMP
     doc.image('assets/echo.png', contentWidth/2 - 64, 16, {width: 128, align: 'center'})
 
+    doc.x = contentMargin;
+    doc.y = 64;
+    doc.fontSize(16)
+        .text('TEST PAGE', {width: contentWidth, align: 'center'})
+        .text(new Date(), {width: contentWidth, align: 'center'});
+
+
+
     doc.end();
 
     return './output/test.pdf';
