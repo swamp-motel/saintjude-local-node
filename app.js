@@ -19,9 +19,9 @@ setInterval(async ()=>{
         anyJobs.forEach(async job=>{
             let filename;
             if (job.payload == 'testpage'){
-                filename = pdf.createTestPage();
+                filename = await pdf.createTestPage();
             } else {
-                filename = pdf.createStatsPDF(job.payload);
+                filename = await pdf.createStatsPDF(job.payload);
             }
             console.log("Filename from PDF Generator:", filename)
             const success = await printer.printPDF(filename).catch(err => {
