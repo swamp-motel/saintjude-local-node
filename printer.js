@@ -1,15 +1,14 @@
 const { print, getPrinters } = require("pdf-to-printer");
 
 async function printPDF(filename){
-  getPrinters()
-    .then(printers=>{
-      console.log("Printers",printers)
-    })
-    .catch(error => {
-      console.error(error);
-    })
+  // getPrinters()
+  //   .then(printers=>{
+  //     console.log("Printers",printers)
+  //   })
+  //   .catch(error => {
+  //     console.error(error);
+  //   })
 
-  
   const printer = "Brother TD-4420DN (USB)";
   const options = {
     printer,
@@ -18,10 +17,11 @@ async function printPDF(filename){
     
   print(filename, options)
     .then(result => {
-      return(result)
+      return true;
     })
     .catch(error => {
       console.error(error);
+      return false;
     })
 }
 
