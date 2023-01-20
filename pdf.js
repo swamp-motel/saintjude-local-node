@@ -65,12 +65,14 @@ async function createStatsPDF(job){
         const uuid = job.uuid;
         
         let remarksToPrint = new Set();
-        if (job.remarks.length <= 6){
-            remarksToPrint = new Set(job.remarks);
-        } else {
-            while (remarksToPrint.size < 6) {
-                const item = getRandomItem(job.remarks);
-                remarksToPrint.add(item);
+        if (job.remarks){
+            if (job.remarks.length <= 6){
+                remarksToPrint = new Set(job.remarks);
+            } else {
+                while (remarksToPrint.size < 6) {
+                    const item = getRandomItem(job.remarks);
+                    remarksToPrint.add(item);
+                }
             }
         }
         
