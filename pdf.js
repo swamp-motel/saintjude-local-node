@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { resolve } = require('path');
+const path = require('path');
 const PDFDocument = require('pdfkit');
 
 const pageHeight = 434; //434pt = 152mm
@@ -9,7 +9,7 @@ const contentWidth = pageWidth - 20;
 const contentMargin = 10;
 
 
-function createTestPage(){
+async function createTestPage(){
     const doc = new PDFDocument({
         size: [pageWidth,pageHeight],
         margins : {
@@ -47,8 +47,8 @@ function createTestPage(){
 
 }
 
-function createStatsPDF(job){
-    return new Promise((resolve,reject) => {
+async function createStatsPDF(job){
+    return new Promise(async (resolve,reject) => {
         console.log(job);
 
         //RENDER SOME PRINTABLE DATA
@@ -65,10 +65,10 @@ function createStatsPDF(job){
         const uuid = job.uuid;
         
         let remarksToPrint = new Set();
-        if (job.remarks.length <= 3){
+        if (job.remarks.length <= 6){
             remarksToPrint = new Set(job.remarks);
         } else {
-            while (remarksToPrint.size < 3) {
+            while (remarksToPrint.size < 6) {
                 const item = getRandomItem(job.remarks);
                 remarksToPrint.add(item);
             }
@@ -101,13 +101,7 @@ function createStatsPDF(job){
             .stroke();
 
         //ECHOSUMP
-        doc.image('assets/echo.png', contentWidth/2 - 64, 16, {width: 128, align: 'center'})
-
-        //ID
-        doc.x = contentMargin;
-        doc.y = pageHeight - 48;
-        doc.fontSize(32)
-        doc.text(uuid, {width: contentWidth, align: 'left'});
+        doc.image('assets/echo.png', 0, 16, {fit: [pageWidth, 32], align: 'center'})
 
         //THANK YOU
         doc.x = contentMargin;
@@ -115,28 +109,46 @@ function createStatsPDF(job){
         doc.fontSize(16)
             .text('THANK YOU FOR VOLUNTEERING AT SAINT JUDE', {width: contentWidth, align: 'center'});
 
-
         //TIMING INFO
         doc.x = contentMargin;
-        doc.y = 128;
-        doc.fontSize(12);
-        doc.text(`Date: ${dateToPrint}`, {width: contentWidth, align: 'left'});
-        //doc.moveDown();
-        doc.text(`Time Started: ${startTimeToPrint}`, {width: contentWidth, align: 'left'});
-        //doc.moveDown();
-        doc.text(`Time Finished: ${endTimeToPrint}`, {width: contentWidth, align: 'left'});
-        //doc.moveDown();
-        doc.text(`Session Duration: ${totalTime}`, {width: contentWidth, align: 'left'});
-        doc.moveDown();
+        doc.y = 120;
+        doc.fontSize(10);
+        doc.text(`Date: ${dateToPrint}`, {width: contentWidth, align: 'center'});
+        doc.text(`Time Started: ${startTimeToPrint}`, {width: contentWidth, align: 'center'});
+        doc.text(`Time Finished: ${endTimeToPrint}`, {width: contentWidth, align: 'center'});
+        doc.text(`Session Duration: ${totalTime}`, {width: contentWidth, align: 'center'});
+        doc.lineWidth(2)
+            .rect(48, 116, pageWidth - 48 - 48, 48)
+            .stroke();
 
         //REMARKS
-        doc.x = contentMargin;
-        doc.y = 196;
-        doc.fontSize(12);
+        doc.y = 190;
+        let currentY = 190;
+        doc.fontSize(10);
+
         for (let remark of remarksToPrint){
+            doc.x = contentMargin + 4;
+            if (remark.image){
+                const imageFile = `${__dirname}/assets/icons/${remark.image}`;
+                const exists = await fileExists(imageFile);
+                console.log(exists)
+                if (exists){
+                    doc.image(imageFile, doc.x, doc.y, {fit: [20, 20]});
+                    doc.y -= 20;
+                }
+            }
+            doc.x = 44;
             doc.text(`${remark.text}`)
-            doc.moveDown();
+            currentY += 28;
+            doc.y = currentY; //Move down
         }
+
+        //ID
+        doc.x = contentMargin + 4;
+        doc.y = pageHeight - 42;
+        doc.fontSize(32)
+        doc.text(uuid, {width: contentWidth, align: 'left'});
+
 
         //QR CODE
         doc.image('assets/postshow_qr.png', pageWidth - 64, pageHeight -64, {width: 48})
@@ -163,4 +175,12 @@ function getRandomItem(arr) {
 
 function pad(n) {
     return n<10 ? '0'+n : n;
+}
+
+function fileExists(filename){
+    console.log(filename)
+    const exists = fs.promises.access(filename, fs.F_OK)
+      .then(()=>{return true})
+      .catch(err => {return false})
+    return exists;
 }
