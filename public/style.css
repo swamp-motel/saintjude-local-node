@@ -1,0 +1,56 @@
+#pdf-list {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    overflow: hidden;
+}
+
+.pdf {
+    padding: 2px;
+    background-color: lavenderblush;
+    margin: 2px;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+.pdf .text {
+    background-color: rgba(255, 255, 255, 0.423);
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+}
+
+button {
+    cursor: pointer;
+    font-weight: 700;
+    padding: 2px;
+    font-size: 1.2em;
+    width: 100%;
+}
+
+.online {
+    background-color: green;
+    color: white;
+    padding: 10px;
+}
+
+
+.offline {
+    background-color: red;
+    color: white;
+    padding: 10px;
+    animation: warning 1s infinite;
+}
+
+@keyframes warning {
+    0%,100% {
+        
+    }
+    50% {
+        background-color: orange;
+    }
+}

@@ -16,8 +16,10 @@ exports.report = async () => {
     
     const response = await axios.post("https://backstage.saintjude.ai/api/reports", submission).catch(err=>{
         console.error('Could not connect to server');
+        this.areWeOnline = false;
         return false;
     });
+    this.areWeOnline = true;
     if (response.data && response.data.jobs){
         response.data.jobs.forEach(job => {
             console.log('I had a job to do!');
@@ -31,6 +33,8 @@ exports.report = async () => {
         return false;
     }
 }
+
+exports.areWeOnline = false;
 
 
 exports.raiseAlert = payload => {

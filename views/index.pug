@@ -1,0 +1,48 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet", href="style.css")
+        title PRINTING
+    body 
+        h1 SAINT JUDE REPORT PRINTING
+        if online
+            h2.online Connection Status: Online
+        else
+            h2.offline Connection Status: OFFLINE!
+            p.offline Please check the connection to the iPhone hotspot Wifi!
+
+        h2 Last 20 Generated reports
+        div#pdf-list
+            each pdf in pdfs
+                - const styleForDiv = `background-color: #${Math.floor((Math.abs(Math.sin(pdf.time) * 16777215))).toString(16)}`;
+                div.pdf(style=styleForDiv)
+                    div
+                        strong.text= pdf.name 
+                        - const displayDate = new Date(pdf.time).toDateString()
+                        - const displayTime = new Date(pdf.time).toLocaleTimeString()
+                        div.text= displayDate
+                        div.text= displayTime
+                        - const actionReprint = "/reprint?filename=" + pdf.filename 
+                    div.buttons
+                        form(action=actionReprint, target="dumdum", method="post") 
+                            button(type="submit") REPRINT    
+                            - const href = "/view/" + pdf.shortFilename
+                        a(href=href, target="_blank") 
+                            button(type="submit") VIEW
+
+        iframe(name="dumdum" src="", frameborder="0") 
+        script. 
+            setTimeout(() => { window.location.reload()},3000);
+        
+        
+
+//-             //ON THIS PAGE:
+//-             /*
+//-             * See the most recent 60 PDFs and read their timestamp titles. Do a reprint if needs be.
+//-             * Print a test page
+//-             * Print a generic version with some simple remarks. Choose Echosump number.
+//-             * See if the printer is online?
+//- */

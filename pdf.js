@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const PDFDocument = require('pdfkit');
 
+const pdfFileStore = __dirname + '/output/';
+
 const pageHeight = 434; //434pt = 152mm
 const pageWidth = 291; // 291pt = 102mm
 
@@ -20,7 +22,7 @@ async function createTestPage(){
         }
     });
 
-    doc.pipe(fs.createWriteStream('./output/test.pdf')); // write to PDF
+    doc.pipe(fs.createWriteStream(pdfFileStore + 'test.pdf')); // write to PDF
 
     //SETUP STYLES
     doc.font('assets/Perfect DOS VGA 437.ttf')
@@ -43,7 +45,7 @@ async function createTestPage(){
 
     doc.end();
 
-    return './output/test.pdf';
+    return pdfFileStore + 'test.pdf';
 
 }
 
@@ -86,7 +88,7 @@ async function createStatsPDF(job){
             }
         });
         
-        const filename = `./output/${job.uuid}_${Date.now()}.pdf`
+        const filename = `${pdfFileStore}${job.uuid}_${Date.now()}.pdf`
         const writeStream = fs.createWriteStream(filename);
         writeStream.on('finish', function () {
             resolve(filename);
@@ -160,9 +162,26 @@ async function createStatsPDF(job){
     })
 }
 
-module.exports = { createStatsPDF, createTestPage }
+async function getListOfPDFs(){
+    const files = await getSortedFiles(pdfFileStore);
+    return files;
+}
 
+module.exports = { createStatsPDF, createTestPage, getListOfPDFs }
 
+const getSortedFiles = async (dir) => {
+    const files = await fs.promises.readdir(dir);
+  
+    return files
+      .map(fileName => ({
+        name: fileName.split("_")[0],
+        time: fs.statSync(`${dir}/${fileName}`).mtime.getTime(),
+        filename: dir + fileName,
+        shortFilename: fileName
+      }))
+      .sort((a, b) => b.time - a.time)
+      .slice(0,20) //ONLY GET MOST RECENT 20 FILES
+  };
 
 function getRandomItem(arr) {
 
