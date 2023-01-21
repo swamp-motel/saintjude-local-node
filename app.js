@@ -27,22 +27,22 @@ app.post("/reprint", (req,res) => {
 })
 app.use("/view", express.static(__dirname + '/output'))
 
-// setInterval(async ()=>{
-//     const anyJobs = await reporter.report();
-//     if (anyJobs.length){
-//         console.log(anyJobs);
-//         anyJobs.forEach(async job=>{
-//             let filename;
-//             if (job.payload == 'testpage'){
-//                 filename = await pdf.createTestPage();
-//             } else {
-//                 filename = await pdf.createStatsPDF(job.payload);
-//             }
-//             console.log("Filename from PDF Generator:", filename)
-//             const success = await printer.printPDF(filename).catch(err => {
-//                 console.error(err);
-//             });
-//             console.log('success?', success);
-//         })
-//     }
-// }, 3000)
+ setInterval(async ()=>{
+     const anyJobs = await reporter.report();
+     if (anyJobs.length){
+         console.log(anyJobs);
+         anyJobs.forEach(async job=>{
+             let filename;
+             if (job.payload == 'testpage'){
+                 filename = await pdf.createTestPage();
+             } else {
+                 filename = await pdf.createStatsPDF(job.payload);
+             }
+             console.log("Filename from PDF Generator:", filename)
+             const success = await printer.printPDF(filename).catch(err => {
+                 console.error(err);
+             });
+             console.log('success?', success);
+         })
+     }
+ }, 3000)
