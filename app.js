@@ -48,10 +48,10 @@ const jobHistory = []
              
              if (result.error){
                 console.error('ERROR', result.error)
-                jobHistory.push({message: result.error, sender:'ERROR', timestamp: Date.now()})
+                jobHistory.unshift({message: result.error, sender:'ERROR', timestamp: Date.now()})
              } else {
                 console.log('PRINTED', result)
-                jobHistory.push({message: job.payload.uuid || 'test page', sender:'JOB', timestamp: Date.now()})
+                jobHistory.unshift({message: job.payload.uuid || 'test page', sender:'JOB', timestamp: Date.now()})
              }
          })
      }
