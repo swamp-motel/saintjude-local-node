@@ -1,15 +1,14 @@
 const axios = require('axios')
-const reportIntervalMs = 500;
 let myUUID = 'printer';
 let myIdentifier = 'printer';
 let sequenceNumber = 0;
 
-exports.report = async () => {
+exports.report = async (jobHistory) => {
     const submission = {
         uuid: myUUID,
         identifier: myIdentifier,
         special: 'printer',
-        conversation: [],
+        conversation: {messages: jobHistory},
         sequenceNumber,
     }
     sequenceNumber++

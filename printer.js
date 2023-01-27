@@ -10,11 +10,7 @@ async function printPDF(filename){
     
   return print(filename, options)
     .then(result => {
-      return true;
-    })
-    .catch(error => {
-      console.error(error);
-      return false;
+      return result;
     })
 }
 

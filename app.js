@@ -9,6 +9,7 @@ const server = app.listen(port, function() {
 const printer = require('./printer.js');
 const pdf = require('./pdf.js');
 const reporter = require('./reporter.js');
+const { resourceLimits } = require('worker_threads');
 
 app.use(express.urlencoded({ extended : true }));
 app.set('view engine', 'pug');
@@ -27,8 +28,10 @@ app.post("/reprint", (req,res) => {
 })
 app.use("/view", express.static(__dirname + '/output'))
 
+const jobHistory = []
+
  setInterval(async ()=>{
-     const anyJobs = await reporter.report();
+     const anyJobs = await reporter.report(jobHistory);
      if (anyJobs.length){
          console.log(anyJobs);
          anyJobs.forEach(async job=>{
@@ -39,10 +42,17 @@ app.use("/view", express.static(__dirname + '/output'))
                  filename = await pdf.createStatsPDF(job.payload);
              }
              console.log("Filename from PDF Generator:", filename)
-             const success = await printer.printPDF(filename).catch(err => {
-                 console.error(err);
+             const result = await printer.printPDF(filename).catch(err => {
+                return {error: err}
              });
-             console.log('success?', success);
+             
+             if (result.error){
+                console.error('ERROR', result.error)
+                jobHistory.push({message: result.error, sender:'ERROR', timestamp: Date.now()})
+             } else {
+                console.log('PRINTED', result)
+                jobHistory.push({message: result, sender:'JOB', timestamp: Date.now()})
+             }
          })
      }
  }, 3000)
