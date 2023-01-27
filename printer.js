@@ -10,7 +10,8 @@ async function printPDF(filename){
     
   return print(filename, options)
     .then(result => {
-      return result;
+      console.log('good print');
+      return filename;
     })
 }
 
