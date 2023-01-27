@@ -51,7 +51,7 @@ const jobHistory = []
                 jobHistory.push({message: result.error, sender:'ERROR', timestamp: Date.now()})
              } else {
                 console.log('PRINTED', result)
-                jobHistory.push({message: result, sender:'JOB', timestamp: Date.now()})
+                jobHistory.push({message: job.payload.uuid || 'test page', sender:'JOB', timestamp: Date.now()})
              }
          })
      }
