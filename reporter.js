@@ -3,6 +3,11 @@ let myUUID = 'printer';
 let myIdentifier = 'printer';
 let sequenceNumber = 0;
 
+const basicAuth = {
+    username: 'sump',
+    password: 'day7sPP'
+}
+
 exports.report = async (jobHistory) => {
     const submission = {
         uuid: myUUID,
@@ -12,8 +17,8 @@ exports.report = async (jobHistory) => {
         sequenceNumber,
     }
     sequenceNumber++
-    
-    const response = await axios.post("https://backstage.saintjude.ai/api/reports", submission).catch(err=>{
+
+    const response = await axios.post("https://backstage.saintjude.ai/api/reports", submission, { auth: basicAuth }).catch(err=>{
         console.error('Could not connect to server');
         this.areWeOnline = false;
         return false;
@@ -23,7 +28,7 @@ exports.report = async (jobHistory) => {
         response.data.jobs.forEach(job => {
             console.log('I had a job to do!');
             console.log(job.payload);
-            axios.delete(`https://backstage.saintjude.ai/api/jobs/${job.id}`).catch(err => {
+            axios.delete(`https://backstage.saintjude.ai/api/jobs/${job.id}`,{ auth: basicAuth }).catch(err => {
                 console.error('Unable to delete the job I just received')
             });
         })
@@ -41,5 +46,13 @@ exports.raiseAlert = payload => {
         uuid: myUUID,
         payload
     }
-    axios.post("https://backstage.saintjude.ai/api/alerts", submission);
+    axios.post("https://backstage.saintjude.ai/api/alerts",
+        submission,
+        {
+            auth: {
+                username: 'sump',
+                password: 'day7sPP'
+            }
+        }
+    );
 }
